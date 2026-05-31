@@ -45,8 +45,6 @@ for name, ticker in stocks.items():
             "漲跌幅%": change,
             "評分": score
         })
-        })
-
     except:
         pass
 
