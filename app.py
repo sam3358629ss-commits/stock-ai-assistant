@@ -14,7 +14,11 @@ stocks = {
     "聯發科": "2454.TW",
     "創意": "3443.TW",
     "世芯": "3661.TW",
-    "波若威": "3163.TWO"
+    "波若威": "3163.TWO",
+    "聯亞": "3081.TWO",
+    "上詮": "3363.TWO",
+    "弘塑": "3131.TWO",
+    "辛耘": "3583.TW"
 }
 
 rows = []
@@ -38,6 +42,12 @@ for name, ticker in stocks.items():
         pass
 
 df = pd.DataFrame(rows)
+
+df = df.sort_values("漲跌幅%", ascending=False)
+
+st.subheader("🔥 今日強勢股 TOP 5")
+
+st.dataframe(df.head(5), use_container_width=True)
 
 st.dataframe(df, use_container_width=True)
 
