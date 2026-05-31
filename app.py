@@ -32,10 +32,19 @@ for name, ticker in stocks.items():
 
         change = round((close - prev) / prev * 100, 2)
 
+        score = 50
+
+        if change > 3:
+        score += 20
+
+        elif change > 1:
+        score += 10
         rows.append({
             "股票": name,
             "收盤價": close,
-            "漲跌幅%": change
+            "漲跌幅%": change,
+            "評分": score
+        })
         })
 
     except:
