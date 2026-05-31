@@ -36,9 +36,9 @@ for name, ticker in stocks.items():
 
         if change > 3:
         score += 20
-
         elif change > 1:
         score += 10
+        
         rows.append({
             "股票": name,
             "收盤價": close,
