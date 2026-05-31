@@ -1,10 +1,45 @@
 
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 
 st.set_page_config(page_title="AI選股助手", layout="wide")
 
 st.title("📈 AI 選股助手 V2")
+
+st.header("台股即時觀察")
+
+stocks = {
+    "台積電": "2330.TW",
+    "聯發科": "2454.TW",
+    "創意": "3443.TW",
+    "世芯": "3661.TW",
+    "波若威": "3163.TWO"
+}
+
+rows = []
+
+for name, ticker in stocks.items():
+    try:
+        data = yf.Ticker(ticker).history(period="5d")
+
+        close = round(data["Close"].iloc[-1], 2)
+        prev = round(data["Close"].iloc[-2], 2)
+
+        change = round((close - prev) / prev * 100, 2)
+
+        rows.append({
+            "股票": name,
+            "收盤價": close,
+            "漲跌幅%": change
+        })
+
+    except:
+        pass
+
+df = pd.DataFrame(rows)
+
+st.dataframe(df, use_container_width=True)
 
 st.markdown("### 今日當沖候選股")
 
