@@ -4,7 +4,8 @@ import pandas as pd
 
 st.set_page_config(page_title="AI選股助手", layout="wide")
 
-st.title("📈 AI 選股助手 MVP")
+st.title("📈 AI 選股助手 V2")
+st.title("測試更新成功")
 
 st.markdown("### 今日當沖候選股")
 
