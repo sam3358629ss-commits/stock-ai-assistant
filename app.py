@@ -25,7 +25,7 @@ rows = []
 
 for name, ticker in stocks.items():
     try:
-        data = yf.Ticker(ticker).history(period="60d")
+        data = yf.Ticker(ticker).history(period="90d")
 
         close = round(data["Close"].iloc[-1], 2)
         prev = round(data["Close"].iloc[-2], 2)
@@ -33,17 +33,24 @@ for name, ticker in stocks.items():
         change = round((close - prev) / prev * 100, 2)
         
         ma20 = data["Close"].rolling(20).mean().iloc[-1]
+        
+        vol_today = data["Volume"].iloc[-1]
+        vol_avg20 = data["Volume"].rolling(20).mean().iloc[-1]
 
-        score = 50
+       score = 50
 
-        # 漲幅評分
+        # 漲幅
         if change > 3:
             score += 20
         elif change > 1:
             score += 10
         
-        # 20MA評分
+        # 20MA
         if close > ma20:
+            score += 20
+        
+        # 爆量
+        if vol_today > vol_avg20 * 1.5:
             score += 20
         
         rows.append({
@@ -51,6 +58,7 @@ for name, ticker in stocks.items():
             "收盤價": close,
             "漲跌幅%": change,
             "20MA": round(ma20, 2),
+            "量比": round(vol_today / vol_avg20, 2),
             "評分": score
         })
     except:
