@@ -52,7 +52,7 @@ for name, ticker in stocks.items():
 
 df = pd.DataFrame(rows)
 
-df = df.sort_values("漲跌幅%", ascending=False)
+df = df.sort_values("評分", ascending=False)
 
 st.subheader("🔥 今日強勢股 TOP 5")
 
