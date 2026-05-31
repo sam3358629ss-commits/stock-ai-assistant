@@ -36,6 +36,18 @@ for name, ticker in stocks.items():
         
         vol_today = data["Volume"].iloc[-1]
         vol_avg20 = data["Volume"].rolling(20).mean().iloc[-1]
+        high1 = data["High"].iloc[-2]
+        low1 = data["Low"].iloc[-2]
+        
+        high2 = data["High"].iloc[-1]
+        low2 = data["Low"].iloc[-1]
+        
+        mother_range = (high1 - low1) / low1
+        
+        inside_bar = (
+            high2 < high1
+            and low2 > low1
+        )
 
         score = 50
 
@@ -52,6 +64,10 @@ for name, ticker in stocks.items():
         # 爆量
         if vol_today > vol_avg20 * 1.5:
             score += 20
+
+        # 子母K
+        if mother_range > 0.05 and inside_bar:
+            score += 30
         
         rows.append({
             "股票": name,
@@ -59,6 +75,7 @@ for name, ticker in stocks.items():
             "漲跌幅%": change,
             "20MA": round(ma20, 2),
             "量比": round(vol_today / vol_avg20, 2),
+            "子母K": "是" if mother_range > 0.05 and inside_bar else "否",
             "評分": score
         })
     except:
