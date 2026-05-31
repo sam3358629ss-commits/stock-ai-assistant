@@ -37,7 +37,7 @@ for name, ticker in stocks.items():
         vol_today = data["Volume"].iloc[-1]
         vol_avg20 = data["Volume"].rolling(20).mean().iloc[-1]
 
-       score = 50
+        score = 50
 
         # 漲幅
         if change > 3:
