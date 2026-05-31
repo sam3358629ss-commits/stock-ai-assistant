@@ -25,24 +25,32 @@ rows = []
 
 for name, ticker in stocks.items():
     try:
-        data = yf.Ticker(ticker).history(period="5d")
+        data = yf.Ticker(ticker).history(period="60d")
 
         close = round(data["Close"].iloc[-1], 2)
         prev = round(data["Close"].iloc[-2], 2)
 
         change = round((close - prev) / prev * 100, 2)
+        
+        ma20 = data["Close"].rolling(20).mean().iloc[-1]
 
         score = 50
 
+        # 漲幅評分
         if change > 3:
             score += 20
         elif change > 1:
             score += 10
         
+        # 20MA評分
+        if close > ma20:
+            score += 20
+        
         rows.append({
             "股票": name,
             "收盤價": close,
             "漲跌幅%": change,
+            "20MA": round(ma20, 2),
             "評分": score
         })
     except:
